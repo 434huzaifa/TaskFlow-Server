@@ -4,11 +4,11 @@ const cors = require('cors');
 const jwt = require("jsonwebtoken")
 const cookie_pares = require("cookie-parser")
 const mongoose = require('mongoose');
-const moment = require("moment")
-
-const app = express()
-const port = process.env.PORT || 5353
-app.use(cookie_pares())
+const moment = require("moment");
+const {Tasks}=require("./Schema");
+const app = express();
+const port = process.env.PORT || 5353;
+app.use(cookie_pares());
 app.use(express.json());
 app.use(cors({
     origin: [
@@ -17,8 +17,8 @@ app.use(cors({
     credentials: true
 }));
 
-const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@saaddb.bmj48ga.mongodb.net/SurveySphere?retryWrites=true&w=majority`
-mongoose.connect(uri)
+const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@saaddb.bmj48ga.mongodb.net/TaskFlow?retryWrites=true&w=majority`;
+mongoose.connect(uri);
 
 async function logger(req, res, next) {
     let date = new Date()
@@ -44,8 +44,6 @@ async function run() {
     try {
         app.post('/jsonwebtoken', logger, async (req, res) => {
             const user = req.body
-            const userid = await MyUser.findOne({ email: user.email })
-            user.userid = userid._id
             const token = jwt.sign(user, process.env.TOKEN, { expiresIn: '1h' })
             res.cookie('tasky', token, {
                 httpOnly: true,
