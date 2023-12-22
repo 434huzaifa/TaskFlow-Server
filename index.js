@@ -92,7 +92,8 @@ async function run() {
         })
         app.post('/task',logger,async(req,res)=>{
             console.log(req.body);
-            res.send({msg:200})
+            const task= await Tasks.create(req.body)
+            res.send(task)
         })
         app.post('/jsonwebtoken', logger, async (req, res) => {
             const user = req.body
