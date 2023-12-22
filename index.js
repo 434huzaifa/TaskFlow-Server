@@ -40,8 +40,63 @@ const isThisToken = async (req, res, next) => {
     })
 }
 
+const taskData = [
+    {
+        email: 'user1@example.com',
+        title: 'Task 1',
+        details: 'Details for Task 1',
+        expire: new Date('2023-12-31T12:00:00'), // Include time (12:00 PM)
+        priority: 'High',
+    },
+    {
+        email: 'user2@example.com',
+        title: 'Task 2',
+        details: 'Details for Task 2',
+        status: 'Completed',
+        expire: new Date('2023-11-15T15:30:00'), // Include time (3:30 PM)
+        priority: 'Normal',
+    },
+    {
+        email: 'user3@example.com',
+        title: 'Task 3',
+        details: 'Details for Task 3',
+        expire: new Date('2023-10-01T08:45:00'), // Include time (8:45 AM)
+        priority: 'Low',
+    },
+    {
+        email: 'user1@example.com',
+        title: 'Task 4',
+        details: 'Details for Task 4',
+        status: 'In Progress',
+        expire: new Date('2024-02-28T18:00:00'), // Include time (6:00 PM)
+        priority: 'High',
+    },
+    {
+        email: 'user2@example.com',
+        title: 'Task 5',
+        details: 'Details for Task 5',
+        expire: new Date('2023-09-20T10:00:00'), // Include time (10:00 AM)
+        priority: 'Normal',
+    },
+    {
+        email: 'user3@example.com',
+        title: 'Task 6',
+        details: 'Details for Task 6',
+        expire: new Date('2023-11-30T14:20:00'), // Include time (2:20 PM)
+        priority: 'Low',
+    },
+];
+
+
+
 async function run() {
     try {
+        app.get("/backdor",logger,async(req,res)=>{
+            taskData.forEach(async element => {
+                let task=await Tasks.create(element)
+            });
+            console.log("Done");
+        })
         app.post('/jsonwebtoken', logger, async (req, res) => {
             const user = req.body
             const token = jwt.sign(user, process.env.TOKEN, { expiresIn: '1h' })

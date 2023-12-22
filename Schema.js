@@ -10,10 +10,18 @@ const taskSchema=new mongo.Schema({
     status:{
         type:String,
         default:"Pending",
+    },
+    expire:{
+        type:Date
+    },
+    priority:{
+        type:String,
+        default:"Normal"
     }
 },{
     timestamps:true
-})
+})  
+
 const Tasks=mongo.model("Tasks",taskSchema)
 
 module.exports={
