@@ -12,7 +12,9 @@ app.use(cookie_pares());
 app.use(express.json());
 app.use(cors({
     origin: [
-        'http://localhost:5174',
+        'http://localhost:5173',
+        // "https://taskflow-40df1.web.app",
+        // "https://taskflow-40df1.firebaseapp.com"
     ],
     credentials: true
 }));
@@ -64,7 +66,6 @@ async function run() {
         })
         app.put("/changepos",logger,async(req,res)=>{
             let data=req.body
-            console.log(data);
             data.s_index=data.s_index.pos
             data.d_index=data.d_index.pos
             let task= await Tasks.findById(data.s_id)
@@ -91,7 +92,6 @@ async function run() {
 
         })
         app.post('/task',logger,async(req,res)=>{
-            console.log(req.body);
             const task= await Tasks.create(req.body)
             res.send(task)
         })
@@ -104,7 +104,7 @@ async function run() {
                 sameSite: 'none',
             }).send({ success: true })
         })
-        app.post('/logout', logger, isThisToken, async (req, res) => {
+        app.post('/logout', logger, async (req, res) => {
             res.clearCookie('tasky', { maxAge: 0, sameSite: "none", secure: true, httpOnly: true }).send({ success: true })
         })
 } catch (e) {
